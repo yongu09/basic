@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.korit.basic.dto.GetUserListResponseDto;
 import com.korit.basic.dto.GetUserResponseDto;
 import com.korit.basic.dto.PostUserRequestDto;
 import com.korit.basic.dto.ResponseDto;
@@ -30,6 +31,11 @@ public class UserController {
   ) {
     ResponseEntity<ResponseDto> response = userService.postUser(RequestBody);
     return response;
+  }
+
+  @GetMapping("")
+  public ResponseEntity<? super GetUserListResponseDto> getUserList() {
+    return null;
   }
 
   @GetMapping("/{userId}")
