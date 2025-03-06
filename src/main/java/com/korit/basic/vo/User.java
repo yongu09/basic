@@ -24,7 +24,7 @@ public class User {
 
     for (UserEntity userEntity: userEntities) {
       User user = new User(userEntity);
-      user.add(user);
+      users.add(user);
     }
 
     return users;

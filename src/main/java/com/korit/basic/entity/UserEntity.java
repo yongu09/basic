@@ -1,5 +1,6 @@
 package com.korit.basic.entity;
 
+import com.korit.basic.dto.PatchUserRequestDto;
 import com.korit.basic.dto.PostUserRequestDto;
 
 import jakarta.persistence.Entity;
@@ -13,7 +14,7 @@ import lombok.Setter;
 
 // entity 클래스로 만들거고, entity 명은 user 로 만들길 희망함.
 // practice_sql 데이터베이스의 user 테이블과 매핑시킬 것임
-@Entity(name="u")
+@Entity(name="user")
 @Table(name="user")
 @Getter
 @Setter
@@ -35,5 +36,10 @@ public class UserEntity {
     this.userName = dto.getUserName();
     this.userAddress = dto.getUserAddress();
     this.userTelNumber = dto.getUserTelNumber();
+  }
+
+  public void patch(PatchUserRequestDto dto) {
+    this.userName = dto.getUserName();
+    this.userAddress = dto.getUserAddress();
   }
 }

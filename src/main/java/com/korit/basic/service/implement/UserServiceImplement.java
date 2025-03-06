@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.korit.basic.dto.GetUserListResponseDto;
 import com.korit.basic.dto.GetUserResponseDto;
+import com.korit.basic.dto.PatchUserRequestDto;
 import com.korit.basic.dto.PostUserRequestDto;
 import com.korit.basic.dto.ResponseDto;
 import com.korit.basic.entity.UserEntity;
@@ -96,6 +97,16 @@ public class UserServiceImplement implements UserService {
   @Override
   public ResponseEntity<? super GetUserListResponseDto> getUserList() {
     
+    List<UserEntity> userEntities = new ArrayList<>();
+
+    try {
+      userEntities = userRepository.findByOrderByUserIdAsc();
+    } catch(Exception exception) {
+      exception.printStackTrace();
+      return ResponseDto.databaseError();
+    }
+
+    return GetUserListResponseDto.success(userEntities);
   }
 
   @Override
@@ -116,6 +127,24 @@ public class UserServiceImplement implements UserService {
   }
 
   @Override
+  public ResponseEntity<ResponseDto> patchUser(String userId, PatchUserRequestDto dto) {
+    
+    try {
+      UserEntity userEntity = userRepository.findByUserId(userId);
+      if (userEntity == null) return ResponseDto.noExistUser();
+
+      userEntity.patch(dto);
+      userRepository.save(userEntity);
+    } catch(Exception exception) {
+      exception.printStackTrace();
+      return ResponseDto.databaseError();
+    }
+
+    return ResponseDto.success(HttpStatus.OK);
+
+  }
+
+  @Override
   public ResponseEntity<ResponseDto> deleteUser(String userId) {
 
     try {
@@ -129,6 +158,8 @@ public class UserServiceImplement implements UserService {
 
     return ResponseDto.success(HttpStatus.OK);
   }
+
+  
 
   
 

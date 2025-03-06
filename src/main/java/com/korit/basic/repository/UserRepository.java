@@ -20,6 +20,8 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
   // SELECT * FROM user WHERE user_tel_number = ?;
   UserEntity findByUserTelNumber(String userTelNumber);
 
+  List<UserEntity> findByOrderByUserIdAsc();
+
   boolean existsByUserId(String userId);
   boolean existsByUserTelNumber(String userTelNumber);
 
@@ -52,7 +54,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
   // SELECT * FROM user WHERE user_address LIKE '%?%';
   List<UserEntity> findByUserAddressLike(String userAddress);
   // SELECT * FROM user WHERE user_address LIKE '%?%';
-  List<UserEntity> findByUserAddressStartWith(String userAddress);
+  List<UserEntity> findByUserAddressStartingWith(String userAddress);
 
   // OrderBy: 정렬을 사용할 필드를 지정해서 Asc, Desc 할 때 사용
   // SELECT * FROM user ORDER BY user_name DESC;
