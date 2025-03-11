@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.korit.basic.dto.SignInRequestDto;
 import com.korit.basic.dto.SignUpRequestDto;
 import com.korit.basic.provider.JwtProvider;
 import com.korit.basic.service.SecurityService;
@@ -44,6 +45,14 @@ public class SecurityController {
   @RequestBody @Valid SignUpRequestDto RequestBody
   ) {
     ResponseEntity<String> response = securityService.signUp(RequestBody);
+    return response;
+  }
+
+  @PostMapping("/sign-in")
+  public ResponseEntity<String> signIn(
+    @RequestBody @Valid SignInRequestDto requestBody
+  ){
+    ResponseEntity<String> response = securityService.signIn(requestBody);
     return response;
   }
 
