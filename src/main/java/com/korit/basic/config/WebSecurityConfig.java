@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.korit.basic.filter.JwtAuthenticationFilter;
+import com.korit.basic.handler.OAuth2SuccessHandler;
 import com.korit.basic.service.implement.OAuth2UserServiceImplement;
 
 import jakarta.servlet.ServletException;
@@ -43,6 +44,7 @@ public class WebSecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final OAuth2UserServiceImplement oAuth2UserService;
+  private final OAuth2SuccessHandler oAuth2SuccessHandler;
   
   // Web Security 설정을 지정하는 메서드
   // @Bean:
@@ -98,8 +100,14 @@ public class WebSecurityConfig {
 
     // OAuth2 인증 처리하는 작업
     .oauth2Login(oauth2 -> oauth2
+      // 사용자가 oauth2 인증을 위한 요청 URL 지정하는 것
+      .authorizationEndpoint(endPoint -> endPoint.baseUri("/security/sns"))
+      // oauth2 인증 완료 후 인증서버에서 들어오는 URL을 지정하는 것
       .redirectionEndpoint(endPoint -> endPoint.baseUri("/oauth2/callback/*"))
+      // oauth2 인증 완료 후 사용자 정보를 처리할 서비스를 지정하는 것
       .userInfoEndpoint(endPoint -> endPoint.userService(oAuth2UserService))
+      // oauth2 서비스 처리 후 성공 시 실행할 기능
+      .successHandler(oAuth2SuccessHandler)
     )
 
     // 인증 및 인가 과정에서 발생한 예외를 직접 처리
